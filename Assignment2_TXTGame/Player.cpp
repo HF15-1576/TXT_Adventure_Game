@@ -7,53 +7,62 @@ Player::Player()
     , length(0)
     , currentRoomIndex(0) {}
 
-int Player::getBattery() const {
+int Player::GetBattery() const {
     return battery;
 }
 
-void Player::drainBattery(int amount) {
-    battery = std::max(0, battery - amount);
+void Player::DrainBattery(int amount) {
+    battery =- amount;
+    if (battery < 0) battery = 0; 
 }
 
-bool Player::isDead() const {
+bool Player::IsDead() const {
     return battery <= 0;
 }
 
-int Player::getQuality() const {
+int Player::GetQuality() const {
     return quality;
 }
 
-void Player::addQuality(int amount) {
+void Player::AddQuality(int amount) {
     quality += amount;
 }
 
-int Player::getLength() const {
+int Player::GetLength() const {
     return length;
 }
 
-void Player::addLength(int amount) {
+void Player::AddLength(int amount) {
     length += amount;
 }
 
-bool Player::hasClue(const std::string& clue) const {
-    return std::find(inventory.begin(), inventory.end(), clue) != inventory.end();
+const std::vector<std::string>& Player::GetInventory() const {
+    return inventory;
 }
 
-void Player::addClue(const std::string& clue) {
-    if (!hasClue(clue)) {
-        inventory.push_back(clue);
-        addQuality(5); // For example, picking up clues improves quality
+void Player::AddToInventory(const std::string& item, int qualityBoost = 0) 
+{
+    inventory.push_back(item);
+    if (qualityBoost > 0) {
+        AddQuality(qualityBoost);
     }
 }
 
-int Player::getCurrentRoom() const {
-    return currentRoomIndex;
-}
+void Player::UseItem(const std::string& item) 
+{
+    // Find the index of the item in inventory
+    int index = -1;
+    for (size_t i = 0; i < inventory.size(); ++i) {
+        if (inventory[i] == item) {
+            index = static_cast<int>(i);
+            break;
+        }
+    }
 
-void Player::SetCurrentRoom(int roomIndex) {
-    currentRoomIndex = roomIndex;
-}
-
-const std::vector<std::string>& Player::getInventory() const {
-    return inventory;
+    if (index != -1) {
+        inventory.erase(inventory.begin() + index);
+        std::cout << "Used item: " << item << std::endl;
+    } else {
+        std::cout << "You don't have: " << item << std::endl;
+    }
 }

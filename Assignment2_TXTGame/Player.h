@@ -16,21 +16,21 @@ public:
     Player();
 
     // Player methods
-    int getBattery() const;
-    void drainBattery(int amount);
-    bool isDead() const;
+    // Battery
+    int GetBattery() const;
+    void DrainBattery(int amount);
+    bool IsDead() const;
 
-    int getQuality() const;
-    void addQuality(int amount);
+    // Quality
+    int GetQuality() const;
+    void AddQuality(int amount);
 
-    int getLength() const;
-    void addLength(int amount);
+    // Video Length
+    int GetLength() const;
+    void AddLength(int amount);
 
-    bool hasClue(const std::string& clue) const;
-    void addClue(const std::string& clue);
-
-    int getCurrentRoom() const;
-    void SetCurrentRoom(int roomIndex);
-
-    const std::vector<std::string>& getInventory() const;
+    // Inventory
+    const std::vector<std::string>& GetInventory() const;
+    void AddToInventory(const std::string& item, int qualityBoost = 0);
+    void UseItem(const std::string& item);;
 };
